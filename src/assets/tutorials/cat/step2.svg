@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Step 1: Head -->
+  <ellipse cx="100" cy="110" rx="70" ry="60" fill="none" stroke="#5D5D5D" stroke-width="5" stroke-linecap="round" />
+  <!-- Step 2: Ears -->
+  <path d="M50 75 L40 30 L80 60" fill="none" stroke="#5D5D5D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M150 75 L160 30 L120 60" fill="none" stroke="#5D5D5D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

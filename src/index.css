@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Kawaii Palette */
+  --bg-color: #FFFDF5;
+  --primary-color: #FFB7B2; /* Pastel Pink */
+  --secondary-color: #B5EAD7; /* Mint */
+  --accent-color: #C7CEEA; /* Lavender */
+  --text-color: #5D5D5D; /* Soft Gray */
+  --card-bg: #FFFFFF;
+  
+  /* UI Props */
+  --border-radius: 20px;
+  --button-radius: 50px;
+  --shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  --shadow-active: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Fredoka', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent scrolling if we want a fixed app feel */
+}
+
+button {
+  font-family: 'Fredoka', sans-serif;
+  border: none;
+  border-radius: var(--button-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:active {
+  transform: translateY(2px);
+}

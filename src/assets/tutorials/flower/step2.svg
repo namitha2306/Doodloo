@@ -1,0 +1,8 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="80" r="30" fill="none" stroke="#5D5D5D" stroke-width="5" />
+  <!-- Petals -->
+  <path d="M100 50 Q 110 20 100 10 Q 90 20 100 50" fill="none" stroke="#5D5D5D" stroke-width="3" />
+  <path d="M100 110 Q 110 140 100 150 Q 90 140 100 110" fill="none" stroke="#5D5D5D" stroke-width="3" />
+  <path d="M70 80 Q 40 70 30 80 Q 40 90 70 80" fill="none" stroke="#5D5D5D" stroke-width="3" />
+  <path d="M130 80 Q 160 70 170 80 Q 160 90 130 80" fill="none" stroke="#5D5D5D" stroke-width="3" />
+</svg>
