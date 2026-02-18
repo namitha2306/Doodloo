@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Canvas from './components/Canvas';
 import Toolbar from './components/Toolbar';
 import TutorialMode from './components/TutorialMode';
@@ -31,6 +31,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="header">
+        <div className="creator-touch">Created with ❤️ by Namitha</div>
         <h1>Doodloo ✨</h1>
       </header>
 
@@ -78,6 +79,21 @@ function App() {
           position: fixed; /* Fix the container to prevent page scroll */
           top: 0;
           left: 0;
+        }
+
+        .header {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+        }
+
+        .creator-touch {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 2px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .header h1 {
