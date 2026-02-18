@@ -31,10 +31,10 @@ function App() {
   return (
     <div className="app-container">
       <header className="header">
-        <div className="creator-touch">
-          <span>Created by Namitha</span>
-          <span style={{ margin: '0 8px', opacity: 0.6 }}>|</span>
-          <span>Idea by Hira</span>
+        <div className="creator-badge">
+          <span className="role">🎨 Crafted by <span className="name">Namitha</span></span>
+          <span className="separator">⋆</span>
+          <span className="role">💡 Idea by <span className="name">Hira</span></span>
         </div>
         <h1>Doodloo ✨</h1>
       </header>
@@ -89,17 +89,46 @@ function App() {
            display: flex;
            flex-direction: column;
            align-items: center;
+           gap: 5px;
         }
 
-        .creator-touch {
-            font-size: 0.75rem;
-            color: var(--accent-color);
-            margin-bottom: 4px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+        .creator-badge {
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #888;
+            border: 1px solid #F0F0F0;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .role {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .name {
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .separator {
+            color: var(--accent-color);
+            font-size: 1.2em;
         }
 
         .header h1 {
