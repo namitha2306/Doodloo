@@ -1,5 +1,5 @@
-import { Palette, Eraser, Sticker, Trash2, Download, GraduationCap, Brush, Circle, Square, Image as ImageIcon, X } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { Palette, Eraser, Sticker, Trash2, Download, GraduationCap, Brush, Circle, Square, Image as ImageIcon, X, ChevronRight } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Toolbar({
   color, setColor,
@@ -16,7 +16,28 @@ export default function Toolbar({
   ];
   const stickers = ['🌸', '✨', '🐱', '🎀', '🍦', '💖', '🍄', '🌈'];
   const [showBrushMenu, setShowBrushMenu] = useState(false);
+  const [showScrollHint, setShowScrollHint] = useState(true);
   const fileInputRef = useRef(null);
+  const toolbarRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (toolbarRef.current) {
+        if (toolbarRef.current.scrollLeft > 20) {
+          setShowScrollHint(false);
+        }
+      }
+    };
+
+    const toolbar = toolbarRef.current;
+    if (toolbar) {
+      toolbar.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (toolbar) toolbar.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -88,7 +109,14 @@ export default function Toolbar({
         </div>
       )}
 
-      <div className="toolbar scrollable-toolbar">
+      {/* Mobile Scroll Hint */}
+      {showScrollHint && (
+        <div className="scroll-indicator fade-out-delay">
+          <span>Scroll for more</span> <ChevronRight size={14} />
+        </div>
+      )}
+
+      <div className="toolbar scrollable-toolbar" ref={toolbarRef}>
         <div className="color-picker">
           {colors.map((c) => (
             <button
@@ -203,6 +231,32 @@ export default function Toolbar({
           padding: 0 10px; /* Safety padding */
         }
 
+        .scroll-indicator {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            animation: bounceHint 1.5s infinite;
+            pointer-events: none;
+            border: 1px solid var(--primary-color);
+            font-weight: 500;
+            z-index: 101;
+        }
+
+        @keyframes bounceHint {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(5px); }
+        }
+        
+        @media (min-width: 600px) {
+           .scroll-indicator { display: none; }
+        }
+
         .toolbar, .sub-toolbar {
           pointer-events: auto;
           background: white;
@@ -250,6 +304,7 @@ export default function Toolbar({
             display: flex;
             gap: 8px;
             flex-shrink: 0; /* Prevent shrinking items */
+            align-items: center;
         }
 
         /* Responsive adjustments */
