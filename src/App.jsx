@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Canvas from './components/Canvas';
 import Toolbar from './components/Toolbar';
 import TutorialMode from './components/TutorialMode';
@@ -13,6 +13,13 @@ function App() {
   const [canvasAction, setCanvasAction] = useState(null);
   const [isTeacherMode, setIsTeacherMode] = useState(false);
   const [traceImage, setTraceImage] = useState(null);
+
+  // Prevent default touch behaviors to stop scrolling/zooming
+  useEffect(() => {
+    const preventDefault = (e) => e.preventDefault();
+    document.addEventListener('touchmove', preventDefault, { passive: false });
+    return () => document.removeEventListener('touchmove', preventDefault);
+  }, []);
 
   const handleAction = (type, payload) => {
     if (type === 'teacher') {
@@ -67,13 +74,14 @@ function App() {
 
       <style>{`
         .app-container {
-          width: 100vw;
-          height: 100vh;
+          width: 100%;
+          height: 100dvh; /* Dynamic viewport height for mobile */
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 20px;
-          gap: 20px;
+          padding: 15px;
+          gap: 15px;
+          overflow: hidden;
         }
 
         .header h1 {
@@ -82,7 +90,7 @@ function App() {
           color: var(--primary-color);
           text-shadow: 2px 2px 0px var(--accent-color);
           margin: 0;
-          font-size: 2.5rem;
+          font-size: 2rem; /* Slightly smaller for mobile */
           animation: bounce 2s infinite;
         }
         
@@ -95,14 +103,26 @@ function App() {
           flex: 1;
           width: 100%;
           max-width: 800px;
-          height: calc(100vh - 200px);
           background: white;
           border-radius: var(--border-radius);
           box-shadow: var(--shadow);
           padding: 2px;
           position: relative;
           overflow: hidden;
-          transition: transform 0.2s;
+          margin-bottom: 70px; /* Space for toolbar */
+        }
+
+        @media (min-width: 600px) {
+            .app-container {
+                padding: 20px;
+                gap: 20px;
+            }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .main-content {
+                margin-bottom: 0;
+            }
         }
       `}</style>
     </div>

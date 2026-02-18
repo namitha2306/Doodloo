@@ -37,7 +37,7 @@ export default function Toolbar({
 
       {/* Secondary Web for Stickers */}
       {tool === 'sticker' && (
-        <div className="sub-toolbar fade-in">
+        <div className="sub-toolbar fade-in scrollable-toolbar">
           {stickers.map((s) => (
             <button
               key={s}
@@ -88,7 +88,7 @@ export default function Toolbar({
         </div>
       )}
 
-      <div className="toolbar">
+      <div className="toolbar scrollable-toolbar">
         <div className="color-picker">
           {colors.map((c) => (
             <button
@@ -105,85 +105,87 @@ export default function Toolbar({
 
         <div className="divider" />
 
-        <button
-          className={`tool-btn ${tool === 'pen' && showBrushMenu ? 'active' : ''}`}
-          onClick={() => {
-            setTool('pen');
-            setShowBrushMenu(!showBrushMenu);
-          }}
-          title="Brush Settings"
-        >
-          <Brush size={20} color="#5D5D5D" />
-        </button>
-
-        <button
-          className={`tool-btn ${tool === 'eraser' ? 'active' : ''}`}
-          onClick={() => {
-            setTool('eraser');
-            setShowBrushMenu(false);
-          }}
-          title="Eraser"
-        >
-          <Eraser size={20} color="#5D5D5D" />
-        </button>
-
-        <button
-          className={`tool-btn ${tool === 'sticker' ? 'active' : ''}`}
-          onClick={() => {
-            setTool('sticker');
-            setShowBrushMenu(false);
-          }}
-          title="Stickers"
-        >
-          <Sticker size={20} color="#5D5D5D" />
-        </button>
-
-        <div className="divider" />
-
-        <button
-          className={`tool-btn action-btn teacher-btn`}
-          onClick={() => onAction('teacher')}
-          title="Learn to Doodle"
-        >
-          <GraduationCap size={20} color="#6C5CE7" />
-        </button>
-
-        <div className="divider" />
-
-        {traceImage ? (
+        <div className="tools-group">
           <button
-            className="tool-btn action-btn bg-red-100"
-            onClick={() => onAction('trace', null)} // Clear image
-            title="Remove Trace Image"
-            style={{ background: '#FFEEEE' }}
+            className={`tool-btn ${tool === 'pen' && showBrushMenu ? 'active' : ''}`}
+            onClick={() => {
+              setTool('pen');
+              setShowBrushMenu(!showBrushMenu);
+            }}
+            title="Brush Settings"
           >
-            <X size={20} color="#FF6B6B" />
+            <Brush size={20} color="#5D5D5D" />
           </button>
-        ) : (
+
+          <button
+            className={`tool-btn ${tool === 'eraser' ? 'active' : ''}`}
+            onClick={() => {
+              setTool('eraser');
+              setShowBrushMenu(false);
+            }}
+            title="Eraser"
+          >
+            <Eraser size={20} color="#5D5D5D" />
+          </button>
+
+          <button
+            className={`tool-btn ${tool === 'sticker' ? 'active' : ''}`}
+            onClick={() => {
+              setTool('sticker');
+              setShowBrushMenu(false);
+            }}
+            title="Stickers"
+          >
+            <Sticker size={20} color="#5D5D5D" />
+          </button>
+        </div>
+
+        <div className="divider" />
+
+        <div className="actions-group">
+          <button
+            className={`tool-btn action-btn teacher-btn`}
+            onClick={() => onAction('teacher')}
+            title="Learn to Doodle"
+          >
+            <GraduationCap size={20} color="#6C5CE7" />
+          </button>
+
+          {traceImage ? (
+            <button
+              className="tool-btn action-btn bg-red-100"
+              onClick={() => onAction('trace', null)}
+              title="Remove Trace Image"
+              style={{ background: '#FFEEEE' }}
+            >
+              <X size={20} color="#FF6B6B" />
+            </button>
+          ) : (
+            <button
+              className="tool-btn action-btn"
+              onClick={() => fileInputRef.current?.click()}
+              title="Trace Image"
+            >
+              <ImageIcon size={20} color="#5D5D5D" />
+            </button>
+          )}
+
           <button
             className="tool-btn action-btn"
-            onClick={() => fileInputRef.current?.click()}
-            title="Trace Image"
+            onClick={() => onAction('clear')}
+            title="Clear Canvas"
           >
-            <ImageIcon size={20} color="#5D5D5D" />
+            <Trash2 size={20} color="#FF6B6B" />
           </button>
-        )}
 
-        <button
-          className="tool-btn action-btn"
-          onClick={() => onAction('clear')}
-          title="Clear Canvas"
-        >
-          <Trash2 size={20} color="#FF6B6B" />
-        </button>
-
-        <button
-          className="tool-btn action-btn"
-          onClick={() => onAction('save')}
-          title="Save Drawing"
-        >
-          <Download size={20} color="#4ECDC4" />
-        </button>
+          <button
+            className="tool-btn action-btn"
+            onClick={() => onAction('save')}
+            title="Save Drawing"
+          >
+            <Download size={20} color="#4ECDC4" />
+          </button>
+        </div>
       </div>
 
       <style>{`
@@ -198,17 +200,29 @@ export default function Toolbar({
           gap: 15px;
           z-index: 100;
           pointer-events: none; 
+          padding: 0 10px; /* Safety padding */
         }
 
         .toolbar, .sub-toolbar {
           pointer-events: auto;
           background: white;
-          padding: 8px 16px; 
+          padding: 10px 16px; 
           border-radius: 50px;
           display: flex;
           align-items: center;
           gap: 12px;
           box-shadow: var(--shadow);
+          max-width: 100%; /* Ensure it doesn't overflow screen width */
+        }
+        
+        .scrollable-toolbar {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .scrollable-toolbar::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
         }
 
         .sub-toolbar {
@@ -226,8 +240,47 @@ export default function Toolbar({
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
         }
 
+        .tools-group, .actions-group, .color-picker {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0; /* Prevent shrinking items */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .toolbar-container {
+                bottom: 10px;
+                gap: 10px;
+            }
+            .toolbar {
+                gap: 10px;
+                padding: 10px 12px;
+                border-radius: 25px; /* Less rounded corners to maximize space */
+                width: 100%;
+                justify-content: flex-start; /* Align left to allow scrolling start */
+            }
+            .tool-btn {
+                width: 38px;
+                height: 38px;
+            }
+            .color-btn {
+                width: 24px;
+                height: 24px;
+            }
+            
+            /* Ensure sub-toolbar is also responsive */
+            .sub-toolbar {
+                width: 95%;
+                justify-content: center;
+                flex-wrap: wrap; /* Allow wrapping for stickers */
+                border-radius: 20px;
+            }
+        }
+
+        /* Rest of styles same as before */
         .label {
             font-size: 0.8rem;
             color: #888;
@@ -252,6 +305,7 @@ export default function Toolbar({
             justify-content: center;
             color: #555;
             padding: 0;
+            flex-shrink: 0;
         }
 
         .size-btn.active {
@@ -270,6 +324,7 @@ export default function Toolbar({
             justify-content: center;
             color: #555;
             padding: 0;
+            flex-shrink: 0;
         }
 
         .type-btn.active {
@@ -282,23 +337,12 @@ export default function Toolbar({
             width: 1px;
             height: 20px;
             background: #EEE;
+            flex-shrink: 0;
         }
 
         @keyframes slideUp {
           from { transform: translateY(20px); opacity: 0; }
           to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .toolbar {
-                gap: 8px;
-                padding: 8px;
-            }
-            .tool-btn {
-                width: 40px;
-                height: 40px;
-            }
         }
 
         .color-picker {
@@ -314,6 +358,7 @@ export default function Toolbar({
           box-shadow: 0 1px 3px rgba(0,0,0,0.1);
           padding: 0;
           transition: transform 0.2s;
+          flex-shrink: 0;
         }
 
         .color-btn.active {
@@ -325,6 +370,7 @@ export default function Toolbar({
           width: 1px;
           height: 24px;
           background: #EEE;
+          flex-shrink: 0;
         }
 
         .tool-btn {
@@ -337,6 +383,7 @@ export default function Toolbar({
           justify-content: center;
           border: 2px solid transparent;
           transition: all 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+          flex-shrink: 0;
         }
 
         .tool-btn.active {
@@ -370,6 +417,7 @@ export default function Toolbar({
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
         }
         
         .sticker-btn:hover {
