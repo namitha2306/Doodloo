@@ -213,12 +213,15 @@ export default function Toolbar({
           gap: 12px;
           box-shadow: var(--shadow);
           max-width: 100%; /* Ensure it doesn't overflow screen width */
+          width: fit-content;
         }
         
         .scrollable-toolbar {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none; /* Firefox */
+            touch-action: pan-x; /* Explicitly allow horizontal scroll */
+            max-width: 95vw; /* Ensure it fits on screen */
         }
         
         .scrollable-toolbar::-webkit-scrollbar {

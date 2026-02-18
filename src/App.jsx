@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Canvas from './components/Canvas';
 import Toolbar from './components/Toolbar';
 import TutorialMode from './components/TutorialMode';
@@ -13,13 +13,6 @@ function App() {
   const [canvasAction, setCanvasAction] = useState(null);
   const [isTeacherMode, setIsTeacherMode] = useState(false);
   const [traceImage, setTraceImage] = useState(null);
-
-  // Prevent default touch behaviors to stop scrolling/zooming
-  useEffect(() => {
-    const preventDefault = (e) => e.preventDefault();
-    document.addEventListener('touchmove', preventDefault, { passive: false });
-    return () => document.removeEventListener('touchmove', preventDefault);
-  }, []);
 
   const handleAction = (type, payload) => {
     if (type === 'teacher') {
@@ -82,6 +75,9 @@ function App() {
           padding: 15px;
           gap: 15px;
           overflow: hidden;
+          position: fixed; /* Fix the container to prevent page scroll */
+          top: 0;
+          left: 0;
         }
 
         .header h1 {
@@ -110,6 +106,7 @@ function App() {
           position: relative;
           overflow: hidden;
           margin-bottom: 70px; /* Space for toolbar */
+          touch-action: none; /* Prevent browser handling of gestures in canvas area */
         }
 
         @media (min-width: 600px) {
