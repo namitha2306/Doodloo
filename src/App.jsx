@@ -31,7 +31,11 @@ function App() {
   return (
     <div className="app-container">
       <header className="header">
-        <div className="creator-touch">Created with ❤️ by Namitha</div>
+        <div className="creator-touch">
+          <span>Created by Namitha</span>
+          <span style={{ margin: '0 8px', opacity: 0.6 }}>|</span>
+          <span>Idea by Hira</span>
+        </div>
         <h1>Doodloo ✨</h1>
       </header>
 
@@ -88,12 +92,14 @@ function App() {
         }
 
         .creator-touch {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--accent-color);
-            margin-bottom: 2px;
-            font-weight: 500;
+            margin-bottom: 4px;
+            font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
         }
 
         .header h1 {
